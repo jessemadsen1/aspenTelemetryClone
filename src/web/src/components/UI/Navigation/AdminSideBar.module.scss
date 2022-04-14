@@ -1,0 +1,10 @@
+@import '../../../custom.scss';
+#adminLink {
+    &:hover{
+        @extend .bg-secondary;
+
+        @extend .text-light;
+
+        transition: 500ms;
+    }    
+}
