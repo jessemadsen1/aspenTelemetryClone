@@ -1,6 +1,6 @@
 terraform {
   backend "azurerm" {
-    resource_group_name = "terraform-resources"
+    resource_group_name = "terraform-resources-tele"
     container_name      = "terraform"
     key                 = "aspen.tfstate"
   }
@@ -25,7 +25,7 @@ resource "random_id" "id" {
 }
 
 resource "azurerm_resource_group" "aspenrg" {
-  name     = "aspen-${random_id.id.hex}"
+  name     = "aspen--jesse"
   location = "centralus"
 }
 
@@ -34,7 +34,7 @@ resource "azurerm_resource_group" "aspenrg" {
 ##############################################################################
 
 resource "azurerm_postgresql_server" "api" {
-  name                             = "api-db-${random_id.id.hex}"
+  name                             = "api-db--jesse"
   resource_group_name              = azurerm_resource_group.aspenrg.name
   location                         = azurerm_resource_group.aspenrg.location
   version                          = "11"
@@ -46,7 +46,7 @@ resource "azurerm_postgresql_server" "api" {
 }
 
 resource "azurerm_postgresql_firewall_rule" "api_db_access" {
-  name = "api_db_access-${random_id.id.hex}"
+  name = "api_db_access--jesse"
   resource_group_name = azurerm_resource_group.aspenrg.name
   server_name = azurerm_postgresql_server.api.name
   start_ip_address = "0.0.0.0"
@@ -58,7 +58,7 @@ resource "azurerm_postgresql_firewall_rule" "api_db_access" {
 ##############################################################################
 
 resource "azurerm_service_plan" "main" {
-  name                = "appserviceplan-${random_id.id.hex}"
+  name                = "appserviceplan--jesse"
   location            = azurerm_resource_group.aspenrg.location
   resource_group_name = azurerm_resource_group.aspenrg.name
   os_type             = "Linux"
@@ -66,7 +66,7 @@ resource "azurerm_service_plan" "main" {
 }
 
 resource "azurerm_linux_web_app" "api_appservice" {
-  name                = "aspen-api-${random_id.id.hex}"
+  name                = "aspen-api--jesse"
   location            = azurerm_resource_group.aspenrg.location
   resource_group_name = azurerm_resource_group.aspenrg.name
   service_plan_id     = azurerm_service_plan.main.id
@@ -79,7 +79,7 @@ resource "azurerm_linux_web_app" "api_appservice" {
     }
   }
   app_settings = {
-    ASPNETCOREURLS            = "http://aspen-api-${random_id.id.hex}.azurewebsites.net"
+    ASPNETCOREURLS            = "http://aspen-api--jesse.azurewebsites.net"
     WEBSITE_WEBDEPLOY_USE_SCM = true
     SwaggerBasePath           = ""
     ASPEN_CONNECTION_STRING   = "server=${azurerm_postgresql_server.api.name}.postgres.database.azure.com; database=postgres; user id=${var.api_dbuser}@${azurerm_postgresql_server.api.name}.postgres.database.azure.com; password=${var.api_dbpassword};SSL Mode=Require; Trust Server Certificate=true;"
@@ -200,7 +200,7 @@ resource "azurerm_network_interface_security_group_association" "example" {
  
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "mystorageaccount" {
-  name                     = "diag${random_id.id.hex}"
+  name                     = "diagjesse"
   location                 = azurerm_resource_group.aspenrg.location
   resource_group_name      = azurerm_resource_group.aspenrg.name
   account_tier             = "Standard"
@@ -209,14 +209,14 @@ resource "azurerm_storage_account" "mystorageaccount" {
  
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "myterraformvm" {
-    name                  = "Aspen-Telemetry${random_id.id.hex}"
+    name                  = "Aspen-Telemetry-jesse"
     location              = azurerm_resource_group.aspenrg.location
     resource_group_name   = azurerm_resource_group.aspenrg.name
     network_interface_ids = [azurerm_network_interface.myterraformnic.id]
     size                  = "Standard_B2s"
  
     os_disk {
-      name                 = "myOsDisk${random_id.id.hex}"
+      name                 = "myOsDisk-jesse"
       caching              = "ReadWrite"
       disk_size_gb         = "30"
       storage_account_type = "StandardSSD_LRS"

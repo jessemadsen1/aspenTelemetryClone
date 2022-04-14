@@ -1,4 +1,4 @@
-name: Deploy to 'jesse'
+name: Deploy to 'jesse's telemetry'
 
 env:
   AZURE_WEBAPP_NAME: ${{secrets.AZURE_API_WEBAPP_NAME}} 
@@ -7,17 +7,17 @@ env:
 on:
   push:
     branches:
-      - jesse
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     environment: 
-      name: jesse
+      name: main
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: jesse
+          ref: main
       
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v2
