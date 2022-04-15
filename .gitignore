@@ -387,3 +387,5 @@ yarn-error.l
 *.tfstate
 *.tfstate.*
 *.tfvars
+/src/api/Migrations/20220415144618_first.cs
+/src/api/Migrations/20220415144618_first.Designer.cs
