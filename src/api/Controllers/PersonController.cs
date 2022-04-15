@@ -7,6 +7,7 @@ public class PersonController : ControllerBase
     private readonly IPersonRepository personRepository;
     private readonly IRegistrationRepository registrationRepository;
     private readonly IMapper mapper;
+    private readonly ILogger<PersonController> logger;
     private string getModelStateErrorMessage() =>
         string.Join(" | ",
             ModelState.Values
@@ -14,18 +15,26 @@ public class PersonController : ControllerBase
                 .Select(e => e.ErrorMessage)
             );
 
-    public PersonController(IPersonRepository personRepository, IRegistrationRepository registrationRepository, IMapper mapper)
+    //public PersonController(IPersonRepository personRepository, //IRegistrationRepository registrationRepository, IMapper mapper)
+    //{
+    //    this.mapper = mapper;
+    //    this.personRepository = personRepository;
+    //    this.registrationRepository = registrationRepository;
+    //}
+    public PersonController(IPersonRepository personRepository, IRegistrationRepository registrationRepository, IMapper mapper, ILogger<PersonController> logger)
     {
         this.mapper = mapper;
+        this.logger = logger;
         this.personRepository = personRepository;
         this.registrationRepository = registrationRepository;
+        logger.LogInformation("PersonController initialized");
     }
-
     [HttpGet("{id}")]
     public async Task<ActionResult<DtoPerson>> GetByID(long id)
     {
         if (!await personRepository.ExistsAsync(id))
             return NotFound("Person id does not exist");
+        logger.LogInformation("PersonController get id: {id}",id);
         var person = await personRepository.GetByIDAsync(id);
         return mapper.Map<DtoPerson>(person);
     }

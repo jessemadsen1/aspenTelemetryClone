@@ -21,7 +21,7 @@ public class EventController : ControllerBase
         this.eventRepository = eventRepository;
         this.mapper = mapper;
         this.logger = logger;
-        logger.LogInformation("EventController intillized");
+        logger.LogInformation("EventController initialized");
     }
     public EventController(IEventRepository eventRepository, IMapper mapper)
     {
