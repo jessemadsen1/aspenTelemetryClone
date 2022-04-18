@@ -161,7 +161,7 @@ public class Startup
 
         app.UseEndpoints(endpoints =>
         {
-            endpoints.MapGet("/health", c => c.Response.WriteAsync("its working 4-15-2022"));
+            endpoints.MapGet("/health", c => c.Response.WriteAsync("its working 4-15A-2022"));
             endpoints.MapControllers();
         });
     }

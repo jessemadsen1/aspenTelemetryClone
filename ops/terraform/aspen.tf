@@ -214,7 +214,6 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
     resource_group_name   = azurerm_resource_group.aspenrg.name
     network_interface_ids = [azurerm_network_interface.myterraformnic.id]
     size                  = "Standard_B2s"
- 
     os_disk {
       name                 = "myOsDisk-jesse"
       caching              = "ReadWrite"
@@ -232,7 +231,7 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
     computer_name                   = "aspen-telemetry-vm"
     admin_username                  = "azureuser"
     admin_password                  = "Password1234!"
-    # custom_data                     = file("scripts/install.sh")
+    # custom_data                     = file("scripts/install.sh") 
  
     disable_password_authentication = false
  
